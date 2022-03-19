@@ -1,0 +1,33 @@
+{
+  "name": "project-delivery-backend",
+  "version": "1.0.0",
+  "description": "backend delivery",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AxOrSha2/project-delivery-backend.git"
+  },
+  "keywords": [
+    "backend",
+    "delivery"
+  ],
+  "author": "Green Code",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AxOrSha2/project-delivery-backend/issues"
+  },
+  "homepage": "https://github.com/AxOrSha2/project-delivery-backend#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "mongoose": "^6.2.7"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "nodemon": "^2.0.15"
+  }
+}
