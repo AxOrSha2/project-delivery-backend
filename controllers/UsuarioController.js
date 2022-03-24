@@ -42,12 +42,12 @@ exports.obtenerUsuarios = async(req, res) => {
 
 exports.actualizarUsuario = async(req, res) => {
     try {
-        const { nombre, correoElectronico, contraseñaUsuario } = req.body
+        const { nombre, correoElectronico, contrasenaUsuario } = req.body
         let usuario_data = await Usuario.findById(req.params.id);
 
         usuario_data.nombre = nombre;
         usuario_data.correoElectronico = correoElectronico;
-        usuario_data.contraseñaUsuario = contraseñaUsuario;
+        usuario_data.contrasenaUsuario = contrasenaUsuario;
 
         usuario_data = await Usuario.findByIdAndUpdate({ _id: req.params.id }, usuario_data, { new: true })
         res.json(usuario_data);
