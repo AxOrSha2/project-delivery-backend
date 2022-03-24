@@ -1,6 +1,6 @@
 const Deliver = require('../models/Deliver');
 
-exports.crearDeliver = async (req, res) => {
+exports.crearDeliver = async(req, res) => {
     try {
         let deliver_data;
         deliver_data = new Deliver(req.body);
@@ -12,12 +12,12 @@ exports.crearDeliver = async (req, res) => {
     }
 }
 
-exports.encontrarDeliver = async (req, res) => {
+exports.encontrarDeliver = async(req, res) => {
     try {
         const deliver_data = await Deliver.findById(req.params.id);
 
         if (!deliver_data) {
-            res.status(404).json({ mensaje: 'No se encontraron coincidencias'});
+            res.status(404).json({ mensaje: 'No se encontraron coincidencias' });
         }
         res.json(deliver_data);
 
@@ -27,7 +27,7 @@ exports.encontrarDeliver = async (req, res) => {
     }
 }
 
-exports.obtenerDelivers = async (req, res) => {
+exports.obtenerDelivers = async(req, res) => {
     try {
         const deliver_data = await Deliver.find();
         res.json(deliver_data);
@@ -37,9 +37,9 @@ exports.obtenerDelivers = async (req, res) => {
     }
 }
 
-exports.actualizarDeliver = async (req, res) => {
+exports.actualizarDeliver = async(req, res) => {
     try {
-        const {nombre, direccion, telefono, correoElectronico} = req.body
+        const { nombre, direccion, telefono, correoElectronico } = req.body
         let deliver_data = await Deliver.findById(req.params.id);
 
         if (!product_data) {
@@ -51,7 +51,7 @@ exports.actualizarDeliver = async (req, res) => {
         deliver_data.telefono = telefono;
         deliver_data.correoElectronico = correoElectronico;
 
-        deliver_data = await Deliver.findByIdAndUpdate({_id: req.params.id},deliver_data, {new: true})
+        deliver_data = await Deliver.findByIdAndUpdate({ _id: req.params.id }, deliver_data, { new: true })
         res.json(deliver_data);
 
     } catch (error) {
@@ -60,15 +60,15 @@ exports.actualizarDeliver = async (req, res) => {
     }
 }
 
-exports.eliminarDeliver = async (req, res) => {
+exports.eliminarDeliver = async(req, res) => {
     try {
         const deliver_data = await Deliver.findById(req.params.id);
-        if (!product_data) {
+        if (!deliver_data) {
             res.status(404).json({ mensaje: 'No se encontraron coincidencias para eliminar productos' })
         }
 
-        await Deliver.findByIdAndRemove({_id:req.params.id});
-        res.json({mensaje: 'Deliver eliminado con éxito.'})
+        await Deliver.findByIdAndRemove({ _id: req.params.id });
+        res.json({ mensaje: 'Deliver eliminado con éxito.' })
 
     } catch (error) {
         console.log(error);
