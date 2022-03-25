@@ -65,7 +65,7 @@ exports.actualizarProducto = async (req, res) => {
 exports.eliminarProducto = async (req, res) => {
     try {
         const producto_data = await Producto.findById(req.params.id);
-        if (!product_data) {
+        if (!producto_data) {
             res.status(404).json({ mensaje: 'No se encontraron coincidencias para eliminar productos' })
         }
 
