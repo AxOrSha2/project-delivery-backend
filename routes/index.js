@@ -1,13 +1,13 @@
 const express = require('express');
 //
 const deliverRouter = require('./deliver');
-const productoRouter = require('./producto');
+const productRouter = require('./product');
 //
 function routerApi(app) {
     const router = express.Router();
     app.use('/api/v1', router);
     router.use('/delivers', deliverRouter);
-    router.use('/productos', productoRouter);
+    router.use('/products', productRouter);
 };
 //
 module.exports = routerApi;

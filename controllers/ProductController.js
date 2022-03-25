@@ -1,25 +1,25 @@
-const Producto = require('../models/Producto');
+const Product = require('../models/Product');
 
-exports.crearProducto = async (req, res) => {
+exports.createProduct = async (req, res) => {
     try {
-        let producto_data;
-        producto_data = new Producto(req.body);
-        await producto_data.save();
-        res.send(producto_data);
+        let product_data;
+        product_data = new Product(req.body);
+        await product_data.save();
+        res.send(product_data);
     } catch (error) {
         console.log(error)
         res.status(500).send('Ups, no se ha logrado guardar el nuevo Producto')
     }
 }
 
-exports.encontrarProducto = async (req, res) => {
+exports.findProduct = async (req, res) => {
     try {
-        const producto_data = await Producto.findById(req.params.id);
+        const product_data = await Product.findById(req.params.id);
 
-        if (!producto_data) {
+        if (!product_data) {
             res.status(404).json({ mensaje: 'No se encontraron coincidencias'});
         }
-        res.json(producto_data);
+        res.json(product_data);
 
     } catch (error) {
         console.log(error);
@@ -27,34 +27,34 @@ exports.encontrarProducto = async (req, res) => {
     }
 }
 
-exports.obtenerProducto = async (req, res) => {
+exports.getProducts = async (req, res) => {
     try {
-        const producto_data = await Producto.find();
-        res.json(producto_data);
+        const product_data = await Product.find();
+        res.json(product_data);
     } catch (error) {
         console.log(error);
         res.status(500).send('Ups... Hay un error, comuniquese con soporte');
     }
 }
 
-exports.actualizarProducto = async (req, res) => {
+exports.updateProducts = async (req, res) => {
     try {
-        const {nombre, img, descripcion, proveedor, precio, unidadesDiponibles} = req.body
-        let producto_data = await Producto.findById(req.params.id);
+        const {name, img, description, supplier, price, unitsAvailable} = req.body
+        let product_data = await Product.findById(req.params.id);
 
-        if (!producto_data) {
+        if (!product_data) {
             res.status(404).json({ mensaje: 'No se encontraron coincidencias para la actualización de datos' })
         }
 
-        producto_data.nombre = nombre;
-        producto_data.img = img;
-        producto_data.descripcion = descripcion;
-        producto_data.proveedor = proveedor;
-        producto_data.precio = precio;
-        producto_data.unidadesDiponibles = unidadesDiponibles;
+        product_data.name = name;
+        product_data.img = img;
+        product_data.description = description;
+        product_data.supplier = supplier;
+        product_data.price = price;
+        product_data.unitsAvailable = unitsAvailable;
 
-        producto_data = await Producto.findByIdAndUpdate({_id: req.params.id},producto_data, {new: true})
-        res.json(producto_data);
+        product_data = await Product.findByIdAndUpdate({_id: req.params.id},product_data, {new: true})
+        res.json(product_data);
 
     } catch (error) {
         console.log(error);
@@ -62,14 +62,14 @@ exports.actualizarProducto = async (req, res) => {
     }
 }
 
-exports.eliminarProducto = async (req, res) => {
+exports.deleteProduct = async (req, res) => {
     try {
-        const producto_data = await Producto.findById(req.params.id);
-        if (!producto_data) {
+        const product_data = await Product.findById(req.params.id);
+        if (!product_data) {
             res.status(404).json({ mensaje: 'No se encontraron coincidencias para eliminar productos' })
         }
 
-        await Producto.findByIdAndRemove({_id:req.params.id});
+        await Product.findByIdAndRemove({_id:req.params.id});
         res.json({mensaje: 'Producto eliminado con éxito.'})
 
     } catch (error) {
