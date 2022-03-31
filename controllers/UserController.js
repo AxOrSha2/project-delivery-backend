@@ -1,12 +1,18 @@
 const User = require('../models/User.js');
+const jwt = require('jsonwebtoken');
 
-exports.createUser = async(req, res) => {
+require('dotenv').config({ path: 'config.env' });
+
+exports.createUser = async (req, res) => {
 
     try {
-        let user_data;
-        user_data = new User(req.body);
+        const { name, email, password } = req.body;
+        const user_data = new User({ name, email, password });
+
         await user_data.save();
-        res.send(user_data);
+        const token = await jwt.sign({ _id: user_data._id }, process.env.SECRET_KEY);
+        res.status(200).json({user_data, token});
+
     } catch (error) {
         console.log(error)
         res.status(500).send('Ups, no se ha logrado guardar el nuevo Usuario')
@@ -14,7 +20,24 @@ exports.createUser = async(req, res) => {
 
 }
 
-exports.findUser = async(req, res) => {
+exports.validateCredentials = async (req, res) => {
+    const { email, password } = req.body;
+
+    const user_data = await User.findOne({email});
+
+    if (!user_data) {
+        return res.status(401).send('The email doesnt exists');
+    }
+    if (user_data.password !== password) {
+        return res.status(401).send('Wrong password');
+    }
+
+    const token = await jwt.sign({ _id: user_data._id }, process.env.SECRET_KEY) 
+    return res.status(200).json({token});
+
+}
+
+exports.findUser = async (req, res) => {
     try {
         const user_data = await User.findById(req.params.id);
         if (!user_data) {
@@ -25,11 +48,10 @@ exports.findUser = async(req, res) => {
     } catch (error) {
         console.log(error);
         res.status.send('Ups... Hay un error, comuniquese con soporte');
-
     }
 }
 
-exports.getUsers = async(req, res) => {
+exports.getUsers = async (req, res) => {
     try {
         const user_data = await User.find();
         res.json(user_data);
@@ -39,7 +61,7 @@ exports.getUsers = async(req, res) => {
     }
 }
 
-exports.updateUser = async(req, res) => {
+exports.updateUser = async (req, res) => {
     try {
         const { name, email, password } = req.body
         let user_data = await User.findById(req.params.id);
@@ -57,7 +79,7 @@ exports.updateUser = async(req, res) => {
     }
 }
 
-exports.deleteUser = async(req, res) => {
+exports.deleteUser = async (req, res) => {
     try {
         const user_data = await User.findById(req.params.id);
         if (!user_data) {
