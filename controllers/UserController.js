@@ -6,12 +6,12 @@ require('dotenv').config({ path: 'config.env' });
 exports.createUser = async (req, res) => {
 
     try {
-        const { name, email, password } = req.body;
-        const user_data = new User({ name, email, password });
+        const { name, cellphone, email, password } = req.body;
+        const user_data = new User({ name, cellphone, email, password });
 
         await user_data.save();
         const token = await jwt.sign({ _id: user_data._id }, process.env.SECRET_KEY);
-        res.status(200).json({user_data, token});
+        res.status(200).json({token});
 
     } catch (error) {
         console.log(error)
@@ -63,10 +63,11 @@ exports.getUsers = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     try {
-        const { name, email, password } = req.body
+        const { name, cellphone, email, password } = req.body
         let user_data = await User.findById(req.params.id);
 
         user_data.name = name;
+        user_data.cellphone = cellphone;
         user_data.email = email;
         user_data.password = password;
 
